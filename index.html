@@ -7,7 +7,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: top;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
@@ -16,14 +16,19 @@
         #gameContainer {
             text-align: center;
         }
+        h1 {
+            color: aquamarine;
+            background-color: rgb(28, 28, 28);
+            padding: 10px;
+        }
         #piDisplay {
-            font-size: 24px;
+            font-size: 3em;
             margin: 20px 0;
             font-family: monospace;
             letter-spacing: 3px;
         }
         input {
-            font-size: 24px;
+            font-size: 3em;
             padding: 8px;
             margin: 10px;
             width: 200px;
@@ -40,7 +45,7 @@
             justify-content: center;
         }
         #piPrefix {
-            font-size: 24px;
+            font-size: 3em;
             font-family: monospace;
             letter-spacing: 3px;
         }
@@ -59,24 +64,28 @@
             font-weight: bold;
         }
         button {
-            font-size: 18px;
+            font-size: 2em;
             padding: 10px 20px;
+            background-color: aquamarine;
+            border: 0;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
+    <h1>Jogo do Pi</h1>
     <div id="gameContainer">
-        <h1>Jogo do Pi</h1>
+        
         <h2>Da prô Claudia</h2>
 
         <h2 id="levelDisplay"></h2>
         <div id="piDisplay"></div>
+        <div id="message"></div>
         <div id="inputContainer" style="display: none;">
             <span id="piPrefix">3.</span>
-            <input type="text" id="userInput" placeholder="digite">
+            <input type="text" id="userInput" placeholder="digite" type="number" pattern="[0-9]*" inputmode="numeric">
         </div>
 
-        <div id="message"></div>
         <button id="startButton">START!</button>
         <button id="resetButton" style="display: none;">Recomeçar</button>
     </div>
@@ -168,7 +177,7 @@
                     updateDisplay();
                 }, 1500);
                         } else {
-                messageDiv.textContent = "Game Over! Recomçando...";
+                messageDiv.textContent = "Game Over! Recomeçando...";
                 messageDiv.style.color = "red";
                 setTimeout(() => {
                     messageDiv.textContent = "";
