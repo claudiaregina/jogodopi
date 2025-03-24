@@ -86,7 +86,7 @@
         <div id="message"></div>
         <div id="inputContainer" style="display: none;">
             <span id="piPrefix">3.</span>
-            <input type="text" id="userInput" placeholder="digite" type="number" pattern="[0-9]*" inputmode="numeric">
+            <input type="text" id="userInput" type="number" pattern="[0-9]*" inputmode="numeric" maxlength="5">
         </div>
 
         <button id="startButton">START!</button>
@@ -128,7 +128,11 @@
         function updateDisplay() {
             // Show the current level
             document.getElementById("levelDisplay").textContent = `Nível ${currentLevel}`;
-            
+
+            // Resize input based on current level
+            userInput.style.width = `${currentLevel * 40}px`; // Adjust the multiplier as needed
+            userInput.maxLength = currentLevel;            
+
             // Hide input during animation
             document.getElementById("inputContainer").style.display = "none";
             
