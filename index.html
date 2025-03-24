@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JOGO DO PI</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #gameContainer {
+            text-align: center;
+        }
+        #piDisplay {
+            font-size: 24px;
+            margin: 20px 0;
+            font-family: monospace;
+            letter-spacing: 3px;
+        }
+        input {
+            font-size: 24px;
+            padding: 8px;
+            margin: 10px;
+            width: 200px;
+            text-align: left;
+            border: none;
+            background-color: transparent;
+            font-family: monospace;
+            letter-spacing: 3px;
+            outline: none;
+        }
+        #inputContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #piPrefix {
+            font-size: 24px;
+            font-family: monospace;
+            letter-spacing: 3px;
+        }
+        .correct {
+            color: green;
+        }
+        #message {
+            margin-top: 10px;
+            height: 20px;
+            font-size: 18px;
+            color: green;
+        }
+        #levelDisplay {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <h1>Jogo do Pi</h1>
+        <h2>Da prô Claudia</h2>
+
+        <h2 id="levelDisplay"></h2>
+        <div id="piDisplay"></div>
+        <div id="inputContainer" style="display: none;">
+            <span id="piPrefix">3.</span>
+            <input type="text" id="userInput" placeholder="digite">
+        </div>
+
+        <div id="message"></div>
+        <button id="startButton">START!</button>
+        <button id="resetButton" style="display: none;">Recomeçar</button>
+    </div>
+
+    <script>
+        const PI = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
+        let currentLevel = 3;
+        
+        const piDisplay = document.getElementById("piDisplay");
+        const userInput = document.getElementById("userInput");
+        const startButton = document.getElementById("startButton");
+        const resetButton = document.getElementById("resetButton");
+        const messageDiv = document.getElementById("message");
+        const inputContainer = document.getElementById("inputContainer");
+
+        userInput.addEventListener("input", function() {
+            // Check if user has typed enough digits for current level
+            if (userInput.value.length >= currentLevel) {
+                // Give a tiny delay to allow for the last keystroke to register visually
+                setTimeout(() => {
+                    checkAnswer();
+                }, 100);
+            }
+        });
+
+        function startGame() {
+            // Hide start button, show game controls
+            startButton.style.display = "none";
+            resetButton.style.display = "inline-block";
+            inputContainer.style.display = "flex";
+            
+            // Reset to level 3 and begin
+            currentLevel = 3;
+            updateDisplay();
+        }
+        
+        function updateDisplay() {
+            // Show the current level
+            document.getElementById("levelDisplay").textContent = `Nível ${currentLevel}`;
+            
+            // Hide input during animation
+            document.getElementById("inputContainer").style.display = "none";
+            
+            // Display Pi digits with animation, then hide them
+            function animateDigits() {
+                const digits = PI.substring(0, currentLevel + 2);
+                piDisplay.textContent = "";
+                piDisplay.style.display = "block"; // Make sure pi display is visible
+                let index = 0;
+                
+                function typeNextDigit() {
+                    if (index < digits.length) {
+                        piDisplay.textContent += digits.charAt(index);
+                        index++;
+                        setTimeout(typeNextDigit, 200); // Adjust speed of typing here (200ms)
+                    } else {
+                        // After animation completes, wait a bit before hiding
+                        setTimeout(() => {
+                            // Hide the piDisplay completely
+                            piDisplay.style.display = "none";
+                            
+                            // Show input field and focus on it
+                            document.getElementById("inputContainer").style.display = "flex";
+                            userInput.focus();
+                        }, 1000); // Wait 1 second after typing completes
+                    }
+                }
+                
+                typeNextDigit();
+            }
+            
+            // Start the animation
+            animateDigits();
+        }
+        
+        function checkAnswer() {
+            // Compare only the decimal part of PI
+            const correctAnswer = PI.substring(2, currentLevel + 2);
+            const userAnswer = userInput.value;
+            
+            if (userAnswer === correctAnswer) {
+                userInput.classList.add("correct");
+                messageDiv.textContent = "Acertou!";
+                currentLevel++;
+                setTimeout(() => {
+                    userInput.classList.remove("correct");
+                    userInput.value = "";
+                    messageDiv.textContent = "";
+                    updateDisplay();
+                }, 1500);
+                        } else {
+                messageDiv.textContent = "Game Over! Recomçando...";
+                messageDiv.style.color = "red";
+                setTimeout(() => {
+                    messageDiv.textContent = "";
+                    messageDiv.style.color = "green";
+                    // Reset to level 3
+                    currentLevel = 3;
+                    userInput.value = "";
+                    updateDisplay();
+                }, 2000);
+            }
+        }
+
+        function resetGame() {
+            currentLevel = 1;
+            userInput.value = "";
+            messageDiv.textContent = "";
+            updateDisplay();
+        }
+        
+        // Add event listener for pressing Enter in the input field
+        userInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkAnswer();
+            }
+        });
+        
+        startButton.addEventListener("click", startGame);
+        checkButton.addEventListener("click", checkAnswer);
+        resetButton.addEventListener("click", resetGame);
+        
+    </script>
+</body>
+</html>
