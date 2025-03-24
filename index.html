@@ -90,7 +90,7 @@
         </div>
 
         <button id="startButton">START!</button>
-        <!-- <button id="resetButton" style="display: none;">Recomeçar</button> -->
+        <button id="resetButton" style="display: none;">Recomeçar</button>
     </div>
 
     <script>
@@ -194,9 +194,10 @@
         }
 
         function resetGame() {
-            currentLevel = 1;
+            currentLevel = 3;
             userInput.value = "";
             messageDiv.textContent = "";
+            inputContainer.style.display = "flex";
             updateDisplay();
         }
         
@@ -209,7 +210,6 @@
         });
         
         startButton.addEventListener("click", startGame);
-        checkButton.addEventListener("click", checkAnswer);
         resetButton.addEventListener("click", resetGame);
         
     </script>
