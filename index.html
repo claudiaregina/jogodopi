@@ -10,7 +10,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: top;
+            justify-content: center;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
@@ -53,16 +53,16 @@
             letter-spacing: 3px;
         }
         .correct {
-            color: green;
+            color: white;
         }
         #message {
             margin-top: 10px;
             height: 20px;
             font-size: 18px;
-            color: green;
+            color: white;
         }
         #levelDisplay {
-            font-size: 20px;
+            font-size: 4em;
             margin-bottom: 10px;
             font-weight: bold;
         }
@@ -75,7 +75,7 @@
         }
     </style>
 </head>
-<body>
+<body id="body">
     <h1>Jogo do Pi</h1>
     <div id="gameContainer">
         
@@ -94,7 +94,7 @@
     </div>
 
     <script>
-        const PI = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
+        const PI = "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273";
         let currentLevel = 3;
         
         const piDisplay = document.getElementById("piDisplay");
@@ -102,6 +102,7 @@
         const startButton = document.getElementById("startButton");
         const resetButton = document.getElementById("resetButton");
         const messageDiv = document.getElementById("message");
+        const bodyDiv = document.getElementById("body");
         const inputContainer = document.getElementById("inputContainer");
 
         userInput.addEventListener("input", function() {
@@ -176,24 +177,20 @@
             if (userAnswer === correctAnswer) {
                 userInput.classList.add("correct");
                 messageDiv.textContent = "Acertou!";
+                bodyDiv.style.backgroundColor = "green";
                 currentLevel++;
                 setTimeout(() => {
                     userInput.classList.remove("correct");
                     userInput.value = "";
                     messageDiv.textContent = "";
+                    bodyDiv.style.backgroundColor = "white";
                     updateDisplay();
                 }, 1500);
                         } else {
-                messageDiv.textContent = "Game Over! Recomeçando...";
-                messageDiv.style.color = "red";
-                setTimeout(() => {
-                    messageDiv.textContent = "";
-                    messageDiv.style.color = "green";
-                    // Reset to level 3
-                    currentLevel = 3;
-                    userInput.value = "";
-                    updateDisplay();
-                }, 2000);
+                messageDiv.textContent = "Não foi dessa vez!";
+                messageDiv.style.color = "white";
+                bodyDiv.style.backgroundColor = "red";
+
             }
         }
 
@@ -202,6 +199,8 @@
             userInput.value = "";
             messageDiv.textContent = "";
             inputContainer.style.display = "flex";
+            bodyDiv.style.backgroundColor = "white";
+
             updateDisplay();
         }
         
